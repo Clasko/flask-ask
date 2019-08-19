@@ -452,7 +452,7 @@ def _copyattr(src, dest, attr, convert=None):
 
 def _output_speech(speech):
     try:
-        xmldoc = ElementTree.fromstring(speech)
+        xmldoc = ElementTree.fromstring(speech.replace('amazon:effect', 'aaa'))
         if xmldoc.tag == 'speak':
             return {'type': 'SSML', 'ssml': speech}
     except (UnicodeEncodeError, ElementTree.ParseError) as e:
