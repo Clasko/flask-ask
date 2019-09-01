@@ -109,15 +109,14 @@ class _Response(object):
         self._response['directives'] = directive
         return self
 
-    def display_render(self, template=None, title=None, backButton='HIDDEN', token=None, background_image_url=None, image=None, text=None, hintText=None):
+    def display_render(self, template=None, title=None, backButton='HIDDEN', token=None, background_image_url=None, image=None, text=None, format=None, hintText=None):
         directive = [
             {
                 'type': 'Display.RenderTemplate',
                 'template': {
                     'type': template,
                     'backButton': backButton,
-                    'title': title,
-                    'textContent': text
+                    'title': title
                 }
             }
         ]
@@ -128,7 +127,26 @@ class _Response(object):
                    {'url': background_image_url}
                ]
             }
-        
+
+        if format == None:
+            format = 'PlainText'
+
+        if text is not None:
+            directive[0]['template']['textContent'] = {
+            'primaryText': {
+                'type': format,
+                'text': text
+            },
+            'secondaryText': {
+                'type': format,
+                'text': None
+            },
+            'tertiaryText': {
+                'type': format,
+                'text': None
+            }
+            }
+
         if image is not None:
             directive[0]['template']['image'] = {
                 'sources': [
@@ -440,7 +458,7 @@ class audio(_Response):
 
         self._response['directives'].append(directive)
         return self
-
+    
 def progressive_response(speech:str):
     """Causes Alexa to speak before your skill sends its full response."""
     response = {
