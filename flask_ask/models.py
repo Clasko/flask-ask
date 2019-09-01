@@ -109,7 +109,7 @@ class _Response(object):
         self._response['directives'] = directive
         return self
 
-    def display_render(self, template=None, title=None, backButton='HIDDEN', token=None, background_image_url=None, image=None, text=None, format=None, hintText=None):
+    def display_render(self, template=None, title=None, backButton='HIDDEN', token=None, background_image_url=None, image=None, primaryText=None, secondaryText=None, tertiaryText=None, format=None, hintText=None):
         directive = [
             {
                 'type': 'Display.RenderTemplate',
@@ -131,19 +131,19 @@ class _Response(object):
         if format == None:
             format = 'PlainText'
 
-        if text is not None:
+        if primaryText is not None:
             directive[0]['template']['textContent'] = {
             'primaryText': {
                 'type': format,
-                'text': text
+                'text': primaryText
             },
             'secondaryText': {
                 'type': format,
-                'text': None
+                'text': secondaryText
             },
             'tertiaryText': {
                 'type': format,
-                'text': None
+                'text': tertiaryText
             }
             }
 
