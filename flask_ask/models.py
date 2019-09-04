@@ -391,7 +391,7 @@ class audio(_Response):
         audio_item = self._audio_item(stream_url=stream_url,
                                       offset=offset,
                                       push_buffer=False,
-                                      opaque_token=opaque_token
+                                      opaque_token=opaque_token,
                                       title=title,
                                       subtitle=subtitle,
                                       art=art,
@@ -422,7 +422,7 @@ class audio(_Response):
         directive['type'] = 'AudioPlayer.Play'
         directive['playBehavior'] = behavior
         return directive
-
+    
     def _audio_item(self,  stream_url=None, offset=0, push_buffer=True, opaque_token=None,
                         title=None, subtitle=None, art=None, bgImg=None):
         """Builds an AudioPlayer Directive's audioItem and updates current_stream"""
