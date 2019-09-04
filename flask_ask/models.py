@@ -426,7 +426,16 @@ class audio(_Response):
     def _audio_item(self,  stream_url=None, offset=0, push_buffer=True, opaque_token=None,
                         title=None, subtitle=None, art=None, bgImg=None):
         """Builds an AudioPlayer Directive's audioItem and updates current_stream"""
-        audio_item = {'stream': {}, 'metadata' : {}}
+        if title is not None:
+            audio_item = {'stream': {}, 'metadata' : {}}
+            metadata = audio_item['metadata']
+            metadata['title'] = title
+            metadata['subtitle'] = subtitle
+            metadata['art'] = {'sources' : [{'url' : art}]}
+            metadata['backgroundImage'] = {'sources' : [{'url' : art }]}
+        else:
+            audio_item = {'stream': {}}
+
         stream = audio_item['stream']
 
         # existing stream
@@ -444,12 +453,6 @@ class audio(_Response):
 
         if push_buffer:  # prevents enqueued streams from becoming current_stream
             push_stream(stream_cache, context['System']['user']['userId'], stream)
-
-        metadata = audio_item['metadata']
-        metadata['title'] = title
-        metadata['subtitle'] = subtitle
-        metadata['art'] = {'sources' : [{'url' : art}]}
-        metadata['backgroundImage'] = {'sources' : [{'url' : art }]}
         
         return audio_item
 
